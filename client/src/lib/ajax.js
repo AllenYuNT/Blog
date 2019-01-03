@@ -2,7 +2,7 @@
 // import axios from 'axios'
 // 创建一个axios实例
 const ajax = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'http://localhost:8088' : 'http://localhost:8088',
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://localhost:8088' : 'http://119.23.74:8088',
   headers: {
     'Content-Type': 'application/json'
   },
