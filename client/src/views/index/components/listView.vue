@@ -64,8 +64,7 @@ export default {
             this.showDetail = true;
         },
         showBlogDetail(data) {
-            console.log(data);
-            this.$router.push({path: `/index/${data.id}`, name: 'detail'});
+            this.$router.push({path: `/index/${data.id}`});
         }
     },
 }
