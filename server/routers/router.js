@@ -11,10 +11,11 @@ router.get('/', ctx => {
 
 router.post('/testPost', Test.testPost);
 
-router.get('/login', User.login);
+router.post('/login', User.login);
 
 router.post("/saveBlog", Blog.saveBlog);
 router.post("/getBlog", Blog.getBlog);
 router.get('/getBlog', Blog.getBlogById);
+router.post("/updateBlog", Blog.updateBlog);
 
 module.exports = router;

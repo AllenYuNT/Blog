@@ -1,6 +1,6 @@
 <!-- showWrap -->
 <template>
-    <div class="showWrap markdown" v-html="editData">
+    <div class="showWrap markdown" v-html="markedData">
     </div>
 </template>
 
@@ -11,7 +11,7 @@
             return {};
         },
         props: {
-            editData: String
+            markedData: String
         },
 
         components: {},

@@ -1,17 +1,20 @@
 <!-- detail -->
 <template>
     <div>
-        <div class="back" @click="back">
-            <span>返回</span>
+        <div class="details">
+            <div class="back" @click="back">
+                <span>返回</span>
+            </div>
+            <div class="backToTop" v-show="showTop" @click="toTop">
+                <sicon name="backToTop" scale="2.5"></sicon>
+            </div>
+            <div class="content">
+                <span>访问量：{{pv}}</span>
+            </div>
+            <div class="markdown detail" v-html="mdContent">
+            </div>
         </div>
-        <div class="backToTop" v-show="showTop" @click="toTop">
-            <sicon name="backToTop" scale="2.5"></sicon>
-        </div>
-        <div class="content">
-            <span>访问量：{{pv}}</span>
-        </div>
-        <div class="markdown detail" v-html="mdContent">
-        </div>
+
     </div>
 </template>
 
@@ -89,6 +92,13 @@
 </script>
 
 <style scoped lang='less'>
+.details{
+    width: 800px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    border: 1px solid #eee;
+    border-top: none;
+    border-bottom: none;
     .detail {
         background: #fff;
         width: 800px;
@@ -102,8 +112,9 @@
 
     .back {
         cursor: pointer;
-        position: absolute;
-        top: 0;
+        position: relative;
+        display: inline-block;
+        top: 10px;
         left: 0;
         z-index: 100;
         width: auto;
@@ -113,7 +124,7 @@
         border-radius: 15px;
         margin-left: -40px;
         text-align: right;
-        padding: 0 20px 0 40px;
+        padding: 0 20px 0 50px;
         font-size: 12px;
 
         &:hover {
@@ -144,9 +155,12 @@
             animation: backToTop 1.5s infinite;
         }
     }
+
     .content {
-        text-align: right;
-        
+        // text-align: right;
+        float: right;
+        margin-top: 15px;
+
         span {
             margin-right: 20px;
             font-size: 13px;
@@ -173,4 +187,15 @@
             top: 30%;
         }
     }
+}
+@media screen and (max-width: 800px) {
+ .details{
+     width: 100vw;
+     .detail{
+         width: 100vw;
+         padding: 15px;
+         font-size: 8px;
+     }
+ }   
+}
 </style>

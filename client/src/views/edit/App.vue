@@ -4,11 +4,12 @@
         <operating v-on:saveData="saveData" class="operating-wrap" />
         <div class="title">
             <input v-model="title" type="text" placeholder="主题">
-            <input type="button" value="login" @click="login">
         </div>
         <div class="edit-box">
-            <show-wrap :editData="editData" class="edit-wrap" />
-            <edit-wrap ref="editWrap" :savedData="preEditData" v-on:returnEditValue="getEditValue" class="edit-wrap" />
+            <show-wrap :markedData="markedData" class="edit-wrap" />
+            <div class="editWrap">
+                <textarea v-model="editData" @input="changeValue" @keydown.tab="tab" placeholder="write something here" />
+            </div> 
         </div>
     </div>
 </template>
@@ -17,7 +18,6 @@
     // import marked from 'marked'
     // import hljs from 'highlight.js';
     import showWrap from './components/showWrap';
-    import editWrap from './components/editWrap';
     import operating from './components/operating.vue';
 
     marked.setOptions({
@@ -37,58 +37,71 @@
         name: 'App',
         data() {
             return {
-                editData: '',
-                preEditData: '',
-                title: ''
+                editData: '', //编辑框内输入的内容
+                markedData: '', //转化后内容
+                title: '',
             };
         },
 
         components: {
             showWrap,
-            editWrap,
             operating
         },
 
         mounted() {
-            console.log(this.$refs.editWrap);
+            let id = this.$route.params.id;
+            if(id){
+                this.$api.get(`/getBlog?id=${this.$route.params.id}`).then(res => {
+                    res.code == 200 ? this.initBlogData(res.data) : this.$Message.error(res.msg);
+                });
+            }
         },
 
         methods: {
-            getEditValue(res) {
-                let editData = this.$replaceCodeData(res);
-                this.editData = marked(editData, {
+            initBlogData(data) {
+                this.title = data.title;
+                this.editData = this.$replaceCodeData(data.mddata);
+                this.markedData = this.$replaceCodeData(data.md);
+                console.log(data.date);
+            },
+            // 屏蔽teatarea tab默认事件
+            tab(e) {
+                this.editData = this.editData + "    ";
+                if (e.preventDefault) {
+                    e.preventDefault();
+                } else {
+                    e.returnValue = false;
+                }
+            },
+            changeValue() {
+                this.markedData = marked( this.editData, {
                     sanitize: true
                 });
             },
             saveData(time) {
-                console.log("time: " + time);
+                let id = this.$route.params.id;
+                let reqUrl = '/saveBlog';
                 let req = {
                     author: 'Allen Yu',
                     date: time,
                     title: this.title,
-                    md: this.$replaceData(this.editData)
+                    md: this.$replace(this.markedData),
+                    mddata: this.$replace(this.editData)
                 }
-                // console.log(new Date(time));
-                this.$api.post("/saveBlog", req).then(res => {
+                if (id) {
+                    req = Object.assign({}, req, {id: id})   
+                    reqUrl = '/updateBlog'
+                }
+                console.log(req);
+                this.$api.post(reqUrl, req).then(res => {
                     this.$Message.success('保存成功');
                     this.savedDataSuccess();
-                    console.log(res);
                 }, err => {
                     this.$Message.error('error');
                 })
             },
             savedDataSuccess() {
-                this.title = '';
-                this.editData = '';
-                this.preEditData = '';
-                this.$refs.editWrap.savedDataSuccess();
-            },
-            login() {
-                this.$api.get('/login').then(res => {
-                    console.log("login success");
-                    this.$Message.success('登录成功');
-                    sessionStorage.setItem('token', `Bearer ${res.token}`)
-                })
+                this.$router.push('/pigeonhole')
             }
         }
 
@@ -137,6 +150,20 @@
                 border: 1px solid #eee;
                 border-radius: 5px;
             }
+            .editWrap {
+                flex: 1;
+                margin: 0 10px;
+                padding: 10px 20px;
+                border: 1px solid #eee;
+                border-radius: 5px;
+                textarea {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    outline: none;
+                    line-height: 25px;
+                }
+    }
         }
     }
 </style>

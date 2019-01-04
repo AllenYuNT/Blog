@@ -16,7 +16,8 @@ class Blog {
             author: req.author,
             date: req.date,
             title: req.title,
-            md: req.md
+            md: req.md,
+            mddata: req.mddata
         }
         await DBBlog.saveBlog(data).then(res => {
             if(res) {
@@ -29,6 +30,23 @@ class Blog {
                 throw [4100, '保存失败']
             }
             
+        })
+    }
+    static async updateBlog(ctx) {
+        let req = ctx.request.body;
+        let data = {
+            id: req.id,
+            date: req.date,
+            title: req.title,
+            md: req.md,
+            mddata: req.mddata
+        }
+        await DBBlog.updateBlog(data).then(res => {
+            ctx.body = {
+                success: 'ok',
+                code: 200,
+                postId: res.postId
+            }
         })
     }
     static async getBlog(ctx) {

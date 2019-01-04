@@ -6,4 +6,8 @@ export default [
     name: "edit",
     component: App,
   },
+  {
+		path: '/edit/:id',
+		component: App
+	}
 ]

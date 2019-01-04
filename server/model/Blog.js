@@ -26,6 +26,9 @@ const Blog = sequelize.define('blog', {
     },
     comments: {
         type: Sequelize.STRING
+    },
+    mddata: {
+        type: Sequelize.TEXT
     }
 }, {
     // 如果为 true 则表的名称和 model 相同，即 user
@@ -44,7 +47,8 @@ exports.saveBlog = function(blogData) {
         title: blogData.title,
         md: blogData.md,
         pv: blogData.pv || 0,
-        comments: blogData.comments || ''
+        comments: blogData.comments || '',
+        mddata: blogData.mddata || ''
     })
 }
 
@@ -63,6 +67,18 @@ exports.getBlogById = function (id) {
     return Blog.findOne({
         where: {
             id: id
+        }
+    })
+}
+exports.updateBlog = function(data) {
+    return Blog.update({
+        date: data.date,
+        title: data.title,
+        md: data.md,
+        mddata: data.mddata
+    }, {
+        where: {
+            id: data.id
         }
     })
 }

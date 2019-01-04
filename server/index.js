@@ -17,9 +17,6 @@ const config = require('./app_config');
 const cors = require('koa-cors');
 
 
-// router.post('/transImg', koaBody(), Auth.auth, transImage.transImageToBOS);
-// logger
-
 app.use(async (ctx, next) => {
     const start = Date.now()
     await next()
@@ -36,7 +33,8 @@ app.use(cors({
         if (ctx.url === '/test') {
             return "*" // 允许来自所有域名请求
         }
-        return 'http://localhost:8080' // 只允许 http://localhost:8080 这个域名的请求
+        return 'http://www.allenyu.xyz';
+        // return 'http://localhost:8080';
     },
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
     maxAge: 5,
@@ -46,7 +44,7 @@ app.use(cors({
 
 }))
 
-const errorHandle = require('./middlewares/errorHandle');
+const errorHandle = require('./middlewares/ErrorHandle');
 app.use(errorHandle);
 
 //认证

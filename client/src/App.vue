@@ -26,7 +26,7 @@
   	#app {
 		width: 100%;
 		height: 100%;
-		// font-size: 15px;
+		font-size: 18px;
 		.router{
 			position: absolute;
 			top: 200px;
@@ -34,5 +34,14 @@
 			right: 0;
 			bottom: 0;
 		}
-  	}
+	  }
+	  @media screen and (max-width: 800px){
+		  #app {
+			  .router {
+					font-size: 13px;
+					top: 150px;
+				}
+		  }
+			
+		}
 </style>

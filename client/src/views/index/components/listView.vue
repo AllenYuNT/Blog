@@ -9,7 +9,7 @@
                 </div>
                 
                 <ul>
-                    <li v-for="(item, j) in blog.data" :key="j" @click="showBlogDetail(item)">
+                    <li ref="listView" v-for="(item, j) in blog.data" :key="j" @click="showBlogDetail(item)">
                         <i class="icon"></i>
                         <span class="time">{{item.time}}</span>
                         <span class="title">{{item.title}}</span>
@@ -62,6 +62,22 @@ export default {
             })
             this.blogs = blogs;
             this.showDetail = true;
+
+            this.$nextTick(() => {
+                this.showItem()
+            })
+        },
+        showItem() {
+            let listView = this.$refs.listView;
+            let i = 0;
+            let showAnima = setInterval(() => {
+                if(i<listView.length) {
+                    this.addClass(listView[i], 'showItem');
+                    i++;
+                }else {
+                    clearInterval(showAnima)
+                }
+            }, 200)
         },
         showBlogDetail(data) {
             this.$router.push({path: `/index/${data.id}`});
@@ -77,9 +93,10 @@ export default {
     height: auto;
     margin: 20px auto;
     // border: 1px solid #eee;
+    font-size: 0.8rem;
     .wrap{
         border-left: 4px solid #eee;
-        padding: 20px 0;
+        padding: 20px 0 0 0;
         li {
             padding-bottom: 10px;
             .icon {
@@ -102,19 +119,22 @@ export default {
                 }
                 span {
                     vertical-align: middle;
-                    font-size: 28px;
+                    font-size: 1.5rem;
                 }
                 
             }
             ul {
-                padding: 10px 0;
+                padding: 10px 0 0 0;
                 li{
-                    height: 40px;
-                    line-height: 40px;
-                    padding: 0;
                     cursor: pointer;
+                    height: 35px;
+                    line-height: 35px;
+                    padding: 0;
+                    position: relative;
+                    opacity: 0;
                     .icon {
                         margin-left: -5px;
+                        z-index: 10;
                     }
                     span {
                         display: inline-block;
@@ -124,22 +144,60 @@ export default {
                         text-overflow:ellipsis;
                         white-space: nowrap;
                         &.title{
-                            width: 300px;
+                            width: auto;
                             font-weight: 500;
+                            max-width: 300px;
                         }
                         &.time{
                             width: 50px;
-                            font-size: 14px;
+                            font-size: 0.6rem;
                         }
                     }
                     &:hover{
                         background: #eee;
+                        color: #000;
                         box-shadow: 2px 5px 5px #ccc;
+                    }
+                    &.showItem {
+                        animation: showListItem 0.4s;
+                        opacity: 1;
                     }
                 }
             }
             
         }
+    }
+
+    @keyframes showListItem {
+        0%{
+            transform: translate(70%, 0);
+            opacity: 0;
+        }
+        100%{
+            transform: translate(0, 0);
+            opacity: 1;
+        }
+    }
+}
+@media screen and (max-width: 800px) {
+    .listView {
+        width: 80vw;
+        // transform: scale(0.8);
+        margin: 0 auto;
+        .wrap {
+            li {
+                ul {
+                    li {
+                        span {
+                            &.title{
+                                max-width: 200px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 }
 </style>
