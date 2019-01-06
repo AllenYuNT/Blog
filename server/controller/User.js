@@ -11,7 +11,7 @@ class User {
                 let data = res.dataValues;
                 if(await bcrypt.validate(password, data.password)) {
                     delete data.password;
-                    return ctx.body = {
+                    ctx.body = {
                         user: data,
                         code: 200,
                         msg: 'login success',
