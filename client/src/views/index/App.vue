@@ -1,6 +1,6 @@
 <!-- App -->
 <template>
-    <div>
+    <div class="list-main">
         <list-view />
     </div>
 </template>

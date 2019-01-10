@@ -154,8 +154,8 @@ export default {
                         }
                     }
                     &:hover{
-                        background: #eee;
-                        color: #000;
+                        background: #F6F6F6;
+                        color: #333;
                         box-shadow: 2px 5px 5px #ccc;
                     }
                     &.showItem {
