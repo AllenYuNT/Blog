@@ -3,6 +3,7 @@
 import index from '../views/index/router'
 import edit from '../views/edit/router'
 import pigeonhole from '../views/pigeonhole/router'
+import album from '../views/album/router'
 import test from '../views/test/router'
 
 Vue.use(VueRouter)
@@ -16,6 +17,7 @@ export default new VueRouter({
     ...index,
     ...edit,
     ...pigeonhole,
+    ...album,
     ...test
   ],
 })

@@ -32,7 +32,7 @@ export default {
     mounted() {
         let req = {
             page: 1,
-            pageSize: 10
+            pageSize: 20
         }
         this.$api.post("/getBlog", req).then(res => {
             res.code == 200 ? this.initListData(res.data) : this.$Message.error(res.msg)

@@ -51,6 +51,11 @@
                         icon: 'all'
                     },
                     {
+                        name: '相册',
+                        link: '/album',
+                        icon: 'album'
+                    },
+                    {
                         name: 'Github',
                         href: 'https://github.com/AllenYuNT',
                         icon: 'github'
